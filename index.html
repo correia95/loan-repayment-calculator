@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b6b5b" />
+
+    <title>Loan Repayment Calculator — repayments, interest &amp; payoff date</title>
+    <meta
+      name="description"
+      content="Calculate the repayment on a home or personal loan and see the total interest and payoff date. Add extra repayments, an offset balance or a lump sum, or switch to fortnightly, to see how much sooner you would be debt-free. Free and runs in your browser."
+    />
+    <link rel="canonical" href="https://loan-repayment-calculator.correia95.workers.dev/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Loan Repayment Calculator" />
+    <meta property="og:description" content="Repayments, total interest and payoff date — plus how much extra repayments, an offset or fortnightly payments save you." />
+    <meta property="og:url" content="https://loan-repayment-calculator.correia95.workers.dev/" />
+    <meta property="og:image" content="https://loan-repayment-calculator.correia95.workers.dev/og.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Loan Repayment Calculator" />
+    <meta name="twitter:description" content="Repayments, total interest and payoff date, plus the effect of extra repayments and offset." />
+    <meta name="twitter:image" content="https://loan-repayment-calculator.correia95.workers.dev/og.svg" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Loan Repayment Calculator",
+        "url": "https://loan-repayment-calculator.correia95.workers.dev/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "AUD" },
+        "description": "Calculate loan repayments, total interest and payoff date, and model extra repayments, offset accounts and fortnightly payments."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is a loan repayment calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The repayment is the fixed amount that pays the loan to zero over its term. Each payment covers the interest charged since the last payment, and the remainder reduces the principal. As the balance falls, more of each payment goes to principal."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much do fortnightly repayments save?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Paying half the monthly repayment every fortnight means 26 half-payments a year, the equivalent of 13 monthly payments. That extra month a year applied to principal typically clears a 30-year loan around four to five years early."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does an offset account reduce interest?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The offset balance is subtracted from the loan balance before interest is calculated. A 20,000 dollar offset on a 6 percent loan saves roughly 1,200 dollars of interest a year, while the money stays available to you."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does this calculator include fees or lenders mortgage insurance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It assumes a single fixed rate for the term and no fees. Add establishment fees or LMI to the amount borrowed if you want them reflected, and re-run the calculation whenever a variable rate changes."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <noscript>
+      <p style="text-align: center; padding: 20px">
+        This loan repayment calculator needs JavaScript. It works out repayments, total interest and
+        the payoff date for a loan, and the effect of extra repayments, an offset balance and
+        fortnightly payments.
+      </p>
+    </noscript>
+  </body>
+</html>
