@@ -7,9 +7,11 @@ import {
   money,
   money2,
   monthsLabel,
+  setMoneyCurrency,
   type Freq,
   type Inputs,
 } from './loan';
+import { CURRENCIES, currencySymbol, guessCurrency } from './intl';
 
 const DEFAULTS: Inputs = {
   amount: 500000,
@@ -73,20 +75,34 @@ function Field({
   );
 }
 
+function readCurrency(): string {
+  try {
+    const c = new URL(window.location.href).searchParams.get('cur');
+    if (c && CURRENCIES.includes(c)) return c;
+  } catch {
+    /* ignore */
+  }
+  return guessCurrency();
+}
+
 export default function App() {
   const [inp, setInp] = useState<Inputs>(readUrl);
+  const [currency, setCurrency] = useState<string>(readCurrency);
   const set = (patch: Partial<Inputs>) => setInp((p) => ({ ...p, ...patch }));
+
+  setMoneyCurrency(currency);
 
   useEffect(() => {
     try {
       const u = new URL(window.location.href);
       for (const k of NUM_KEYS) u.searchParams.set(k, String(inp[k]));
       u.searchParams.set('freq', inp.freq);
+      u.searchParams.set('cur', currency);
       window.history.replaceState(null, '', u.toString());
     } catch {
       /* ignore */
     }
-  }, [inp]);
+  }, [inp, currency]);
 
   const r = useMemo(() => calculate(inp), [inp]);
   const perYear = PERIODS_PER_YEAR[inp.freq];
@@ -120,7 +136,13 @@ export default function App() {
       <div className="cols">
         <form className="panel form" onSubmit={(e) => e.preventDefault()}>
           <h2>The loan</h2>
-          <Field label="Amount borrowed" prefix="$" value={inp.amount} onChange={(n) => set({ amount: n })} step={1000} />
+          <label className="field">
+            <span>Currency</span>
+            <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+              {CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            </select>
+          </label>
+          <Field label="Amount borrowed" prefix={currencySymbol(currency)} value={inp.amount} onChange={(n) => set({ amount: n })} step={1000} />
           <div className="two">
             <Field label="Interest rate" suffix="% p.a." value={inp.annualRatePct} onChange={(n) => set({ annualRatePct: n })} step={0.05} />
             <Field label="Loan term" suffix="years" value={inp.years} onChange={(n) => set({ years: n })} />
@@ -137,14 +159,14 @@ export default function App() {
           <h2>Pay it off faster (optional)</h2>
           <Field
             label={`Extra per ${freqWord}`}
-            prefix="$"
+            prefix={currencySymbol(currency)}
             value={inp.extraPerPayment}
             onChange={(n) => set({ extraPerPayment: n })}
             step={50}
           />
-          <Field label="Average offset / redraw balance" prefix="$" value={inp.offset} onChange={(n) => set({ offset: n })} step={1000} />
+          <Field label="Average offset / redraw balance" prefix={currencySymbol(currency)} value={inp.offset} onChange={(n) => set({ offset: n })} step={1000} />
           <div className="two">
-            <Field label="One-off lump sum" prefix="$" value={inp.lumpSum} onChange={(n) => set({ lumpSum: n })} step={1000} />
+            <Field label="One-off lump sum" prefix={currencySymbol(currency)} value={inp.lumpSum} onChange={(n) => set({ lumpSum: n })} step={1000} />
             <Field label="…paid after" suffix="months" value={inp.lumpSumAtMonth} onChange={(n) => set({ lumpSumAtMonth: n })} />
           </div>
           <p className="note">

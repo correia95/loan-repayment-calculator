@@ -1,4 +1,6 @@
-// Loan / mortgage amortisation engine. Pure functions, no dependencies.
+// Loan / mortgage amortisation engine. Pure functions.
+
+import { guessCurrency, money as _money } from './intl.ts';
 
 export type Freq = 'weekly' | 'fortnightly' | 'monthly';
 
@@ -158,11 +160,18 @@ export function byYear(rows: PeriodRow[], perYear: number): YearRow[] {
   return out;
 }
 
+let CCY = guessCurrency();
+export function setMoneyCurrency(c: string): void {
+  CCY = c;
+}
+export function moneyCurrency(): string {
+  return CCY;
+}
 export function money(n: number): string {
-  return n.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
+  return _money(n, CCY, 0);
 }
 export function money2(n: number): string {
-  return n.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return _money(n, CCY, 2);
 }
 export function monthsLabel(monthsFloat: number): string {
   const months = Math.round(monthsFloat);
